@@ -15,6 +15,11 @@ RSAF is not itself a file manager, but any file manager supporting SAF, includin
 * Supports importing and exporting the rclone configuration file
 * Supports random reads
 * Supports server-side copy/move for rclone backends implementing this feature
+
+The Telegram Drive backend is included from the
+[RSAF Telegram-enabled rclone fork](https://github.com/PhateValleyman/rclone/tree/telegram-backend).
+To configure it in the app, add a remote and select **Telegram Drive**. Enter the Telegram API ID,
+API hash, and phone number. The default `me` chat stores files in Saved Messages.
 * Supports client applications that request access to a file descriptor
 * Supports client applications that open entire directories with `ACTION_OPEN_DOCUMENT_TREE`
 * Supports pretending to be local storage for apps that block remote SAF roots
