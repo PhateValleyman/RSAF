@@ -34,22 +34,26 @@ build-apk:
     - apt-get update -qq
     - apt-get install -y -qq curl unzip git ca-certificates
     - mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
-    - curl --fail --silent --show-error --location
-        --output /tmp/commandlinetools.zip
-        https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
+    - >-
+      curl --fail --silent --show-error --location
+      --output /tmp/commandlinetools.zip
+      https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
     - unzip -q /tmp/commandlinetools.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
-    - mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools"
-        "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+    - >-
+      mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools"
+      "$ANDROID_SDK_ROOT/cmdline-tools/latest"
     - export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$PATH"
     - yes | sdkmanager --licenses >/dev/null || true
-    - sdkmanager
-        "platform-tools"
-        "platforms;android-${ANDROID_API_LEVEL}"
-        "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
-        "ndk;${ANDROID_NDK_VERSION}"
-    - curl --fail --silent --show-error --location
-        --output /tmp/go.tar.gz
-        "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
+    - >-
+      sdkmanager
+      "platform-tools"
+      "platforms;android-${ANDROID_API_LEVEL}"
+      "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
+      "ndk;${ANDROID_NDK_VERSION}"
+    - >-
+      curl --fail --silent --show-error --location
+      --output /tmp/go.tar.gz
+      "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
     - tar -C /usr/local -xzf /tmp/go.tar.gz
     - export PATH="/usr/local/go/bin:$PATH"
     - go version
