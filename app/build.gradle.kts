@@ -127,7 +127,16 @@ val goDir = File(rootDir, "external/go")
 val goSrcDir = File(goDir, "src")
 val goBinDir = File(goDir, "bin")
 
-val abis = arrayOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+val supportedAbis = setOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+val abis = (findProperty("rsaf.abis")?.toString()?.split(',')?.map(String::trim)
+    ?: supportedAbis.toList())
+    .filter(String::isNotEmpty)
+    .also {
+        require(it.isNotEmpty()) { "rsaf.abis must contain at least one ABI" }
+        require(it.all(supportedAbis::contains)) {
+            "Unsupported ABI in rsaf.abis: ${it.filterNot(supportedAbis::contains)}"
+        }
+    }
 
 val isWindows = DefaultNativePlatform.getCurrentOperatingSystem().isWindows
 val exeExt = if (isWindows) ".exe" else ""
@@ -200,7 +209,7 @@ android {
             isEnable = true
             isUniversalApk = false
             reset()
-            include(*abis)
+            include(*abis.toTypedArray())
         }
     }
     lint {
